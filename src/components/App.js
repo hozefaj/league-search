@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/App.css';
+import SearchBar from './SearchBar';
 
 class App extends Component {
 
@@ -21,12 +22,11 @@ class App extends Component {
 
 */
     render() {
-    return (
-      <div className="App">
-
-          {this.state.summoner}
-      </div>
-    );
+        return (
+          <div className="App">
+              <SearchBar/>
+          </div>
+        );
     }
 }
 
