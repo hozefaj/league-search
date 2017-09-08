@@ -24,6 +24,11 @@ class App extends Component {
     render() {
         return (
           <div className="App">
+              <div
+                className="text"
+              >
+                  League Search
+              </div>
               <SearchBar/>
           </div>
         );
