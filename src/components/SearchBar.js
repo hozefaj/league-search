@@ -1,8 +1,16 @@
 import React from 'react';
+import '../css/SearchBar.css';
 
 const SearchBar = () => (
-    <form>
-        <input>
+    <form
+        className="SearchBar"
+        onSubmit={(e) => {
+            e.preventDefault();
+        }}
+    >
+        <input
+            className="input"
+        >
         </input>
     </form>
 );
