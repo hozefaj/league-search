@@ -15,7 +15,16 @@ const styles = theme => ({
     },
 });
 
-const TeamTable = ({data}) => {
+const TeamTable = ({data, team}) => {
+    let arr = [];
+    const participants = data.participants;
+    const teamLength = data.participants.length;
+    if (team === 1) {
+        arr = participants.slice(0, teamLength / 2);
+    }
+    if (team === 2) {
+        arr = participants.slice(teamLength / 2, teamLength);
+    }
     return(
         <Paper>
             <Table>
@@ -28,8 +37,8 @@ const TeamTable = ({data}) => {
 
                 </TableHead>
                     <TableBody>
-                        {data.participants.map(player => {
-                            return (
+                        {arr.map(player => {
+                            return(
                                 <TableRow key={id++}>
                                     <TableCell>{player.summonerName}</TableCell>
                                     <TableCell numeric>{player.championId}</TableCell>

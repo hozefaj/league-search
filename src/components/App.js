@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/App.css';
 import SearchBar from './SearchBar';
+import Team1 from './Team1';
+import Team2 from './Team2';
+import TeamTable from './TeamTable';
 
-const API_KEY = `?api_key=RGAPI-a0498d0a-fc2b-4af0-a032-3b9b14d0f2ad`;
+const API_KEY = `?api_key=RGAPI-211a1e0c-0bdf-47da-be18-bff6a88dfa11`;
 
 class App extends Component {
 
     state = {
-        summoner: '',
-        searchTerm: ''
+        searchTerm: '',
+        data: []
     }
 
     onSearchChange = (e) => {
@@ -27,13 +30,15 @@ class App extends Component {
             });
             const url2 = `https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/${res.data.id}${API_KEY}`;
             axios.get(url2).then(res => {
-                console.log(res);
+                this.setState({
+                    data: res.data
+                });
             });
         });
     }
 
     render() {
-        const {summoner} = this.state;
+        const {data} = this.state;
         return (
           <div className="App">
               <div
@@ -45,9 +50,12 @@ class App extends Component {
                 onSearchChange={this.onSearchChange}
                 onSubmit={this.onSubmit}
               />
-
               <div>
-                  {summoner}
+                  {data.length !== 0 ? <Team1 data={data}/> : ''}
+              </div>
+              <br/>
+              <div>
+                  {data.length !== 0 ? <Team2 data={data}/> : ''}
               </div>
           </div>
         );
