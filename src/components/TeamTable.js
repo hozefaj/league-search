@@ -18,7 +18,27 @@ const styles = theme => ({
 const TeamTable = ({data}) => {
     return(
         <Paper>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell> Name </TableCell>
+                        <TableCell numeric> Champion </TableCell>
+                        <TableCell numeric> Rank </TableCell>
+                    </TableRow>
 
+                </TableHead>
+                    <TableBody>
+                        {data.participants.map(player => {
+                            return (
+                                <TableRow key={id++}>
+                                    <TableCell>{player.summonerName}</TableCell>
+                                    <TableCell numeric>{player.championId}</TableCell>
+                                    <TableCell numeric>{1}</TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+            </Table>
         </Paper>
     );
 }
