@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/SearchBar.css';
 
-const SearchBar = () => (
+const SearchBar = ({onSearchChange}) => (
     <form
         className="SearchBar"
         onSubmit={(e) => {
@@ -10,6 +10,7 @@ const SearchBar = () => (
     >
         <input
             className="input"
+            onChange={onSearchChange}
         >
         </input>
     </form>
