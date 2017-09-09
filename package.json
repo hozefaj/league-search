@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "material-ui": "next",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "semantic-ui-react": "^0.72.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.13"
