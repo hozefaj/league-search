@@ -21,6 +21,13 @@ class App extends Component {
     }
 
 */
+
+    onSearchChange = (e) => {
+        this.setState({
+            searchTerm: e.target.value
+        });
+    }
+
     render() {
         return (
           <div className="App">
@@ -29,7 +36,9 @@ class App extends Component {
               >
                   League Search
               </div>
-              <SearchBar/>
+              <SearchBar
+                onSearchChange={this.onSearchChange}
+              />
           </div>
         );
     }
