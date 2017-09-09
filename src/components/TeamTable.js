@@ -7,14 +7,6 @@ import '../css/TeamTable.css'
 
 let id = 0;
 
-const styles = theme => ({
-    paper: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
-        overflowX: 'auto',
-    },
-});
-
 const TeamTable = ({data, team}) => {
     let arr = [];
     const participants = data.participants;
@@ -26,7 +18,7 @@ const TeamTable = ({data, team}) => {
         arr = participants.slice(teamLength / 2, teamLength);
     }
     return(
-        <Paper>
+        <Paper className="paper">
             <Table>
                 <TableHead>
                     <TableRow>
@@ -52,4 +44,4 @@ const TeamTable = ({data, team}) => {
     );
 }
 
-export default withStyles(styles)(TeamTable);
+export default TeamTable;
