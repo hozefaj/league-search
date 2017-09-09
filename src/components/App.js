@@ -6,7 +6,7 @@ import SearchBar from './SearchBar';
 class App extends Component {
 
     state = {
-        summoner: 'lol',
+        summoner: '',
         searchTerm: ''
     }
 /*
@@ -25,6 +25,16 @@ class App extends Component {
     onSearchChange = (e) => {
         this.setState({
             searchTerm: e.target.value
+        });
+    }
+
+    onSubmit = () => {
+        const url = 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/Thang?api_key=RGAPI-a0498d0a-fc2b-4af0-a032-3b9b14d0f2ad';
+        axios.get(url).then(res => {
+            this.setState({
+                summoner: res.data.name
+            })
+            console.log(res);
         });
     }
 
