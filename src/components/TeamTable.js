@@ -1,6 +1,5 @@
 import React from 'react';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 
 import '../css/TeamTable.css'
