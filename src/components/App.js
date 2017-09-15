@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import '../css/App.css';
 import SearchBar from './SearchBar';
 import Team1 from './Team1';
 import Team2 from './Team2';
-import TeamTable from './TeamTable';
-
-const API_KEY = `?api_key=RGAPI-211a1e0c-0bdf-47da-be18-bff6a88dfa11`;
 
 class App extends Component {
 
@@ -22,19 +18,13 @@ class App extends Component {
     }
 
     onSubmit = () => {
-        const {summoner, searchTerm} = this.state;
-        const url = `https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${searchTerm}${API_KEY}`;
-        axios.get(url).then(res => {
-            this.setState({
-                summoner: res.data.name
-            });
-            const url2 = `https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/${res.data.id}${API_KEY}`;
-            axios.get(url2).then(res => {
-                this.setState({
-                    data: res.data
-                });
-            });
-        });
+        const { searchTerm } = this.state;
+
+        fetch(`/api/${searchTerm}`)
+            .then(res => res.json())
+            .then(res => this.setState({
+                data: res
+            }));
     }
 
     render() {
