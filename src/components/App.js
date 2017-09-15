@@ -3,6 +3,7 @@ import '../css/App.css';
 import SearchBar from './SearchBar';
 import Team1 from './Team1';
 import Team2 from './Team2';
+import axios from 'axios';
 
 class App extends Component {
 
@@ -20,11 +21,11 @@ class App extends Component {
     onSubmit = () => {
         const { searchTerm } = this.state;
 
-        fetch(`/api/${searchTerm}`)
-            .then(res => res.json())
-            .then(res => this.setState({
-                data: res
-            }));
+        axios.get(`/api/${searchTerm}`).then(res => {
+           this.setState({
+               data: res.data
+           })
+        });
     }
 
     render() {
@@ -42,9 +43,7 @@ class App extends Component {
               />
               <div>
                   {data.length !== 0 ? <Team1 data={data}/> : ''}
-              </div>
-              <br/>
-              <div>
+                  <br/>
                   {data.length !== 0 ? <Team2 data={data}/> : ''}
               </div>
           </div>
