@@ -6,6 +6,7 @@ import Team2 from './Team2';
 import axios from 'axios';
 import XRegExp from 'xregexp';
 
+
 class App extends Component {
 
     state = {
@@ -21,6 +22,7 @@ class App extends Component {
 
     onSubmit = () => {
         const { searchTerm } = this.state;
+        if (searchTerm.length > 16) return;
         console.log(encodeURI(searchTerm));
         const regex = new XRegExp("^[0-9\\p{L} _\\.]+$");
         if (regex.test(searchTerm)) {
@@ -29,9 +31,12 @@ class App extends Component {
                     return axios.get(`/api/active-game/${res.data.id}`);
                 })
                 .then(res => {
-                    this.setState({
-                        data: res.data
-                    })
+                    // Check participants to verify that the summoner is in game44
+                    if (res.data.participants) {
+                        this.setState({
+                            data: res.data
+                        })
+                    }
                 })
         }
         else {
@@ -55,8 +60,11 @@ class App extends Component {
                 onSubmit={this.onSubmit}
               />
               <div>
-                  {data.length !== 0 ? <Team1 data={data}/> : ''}
-                  {data.length !== 0 ? <Team2 data={data}/> : ''}
+                  {data.length !== 0 ?
+                      <div>
+                          <Team1 data={data}/>
+                          <Team2 data={data}/>
+                      </div> : ''}
               </div>
           </div>
         );
