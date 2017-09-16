@@ -56,7 +56,6 @@ class App extends Component {
               />
               <div>
                   {data.length !== 0 ? <Team1 data={data}/> : ''}
-                  <br/>
                   {data.length !== 0 ? <Team2 data={data}/> : ''}
               </div>
           </div>
