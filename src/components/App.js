@@ -4,12 +4,13 @@ import SearchBar from './SearchBar';
 import Team1 from './Team1';
 import Team2 from './Team2';
 import axios from 'axios';
+import XRegExp from 'xregexp';
 
 class App extends Component {
 
     state = {
         searchTerm: '',
-        data: []
+        data: [],
     }
 
     onSearchChange = (e) => {
@@ -20,20 +21,24 @@ class App extends Component {
 
     onSubmit = () => {
         const { searchTerm } = this.state;
-        let id = 0;
         console.log(encodeURI(searchTerm));
-        axios.get(`/api/${encodeURI(searchTerm)}`)
-            .then(res => {
-                id = res.data.id;
-                return axios.get(`/api/active-game/${id}`);
-            })
-            .then(res => {
-                this.setState({
-                    data: res.data
+        const regex = new XRegExp("^[0-9\\p{L} _\\.]+$");
+        if (regex.test(searchTerm)) {
+            axios.get(`/api/${encodeURI(searchTerm)}`)
+                .then(res => {
+                    return axios.get(`/api/active-game/${res.data.id}`);
                 })
+                .then(res => {
+                    this.setState({
+                        data: res.data
+                    })
+                })
+        }
+        else {
+            this.setState({
+                data: []
             })
-
-
+        }
     }
 
     render() {
