@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/SearchBar.css';
-import Button from 'material-ui/Button';
+import CustomButton from './CustomButton';
 
 const SearchBar = ({onSearchChange, onSubmit}) => (
     <div className="container">
@@ -20,9 +20,9 @@ const SearchBar = ({onSearchChange, onSubmit}) => (
             </form>
         </div>
         <div>
-            <Button className="button">
-                PRESS ME
-            </Button>
+            <CustomButton
+                className="button"
+                onClick={onSubmit}/>
         </div>
     </div>
 );
