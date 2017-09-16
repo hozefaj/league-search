@@ -7,11 +7,21 @@
 
 .SearchBar {
     width: 500px;
-    border: 2px solid red;
 }
 
 .input {
     width: 491px;
     height: 40px;
     padding-left: 1%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: solid gainsboro;
+    box-shadow: 0 0 0 1pt gainsboro;
+
+}
+
+.button {
+    height: 49px;
+    margin-left: 6%;
 }
