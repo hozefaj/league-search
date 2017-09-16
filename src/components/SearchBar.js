@@ -10,10 +10,14 @@ const SearchBar = ({onSearchChange, onSubmit}) => (
                 onSubmit={(e) => {
                     e.preventDefault();
                     onSubmit();
+                    this.input.value = '';
                 }}
             >
                 <input
                     className="input"
+                    ref={node => {
+                        this.input = node
+                    }}
                     onChange={onSearchChange}
                 >
                 </input>
@@ -22,7 +26,10 @@ const SearchBar = ({onSearchChange, onSubmit}) => (
         <div>
             <CustomButton
                 className="button"
-                onClick={onSubmit}/>
+                onClick={() => {
+                    onSubmit();
+                    this.input.value = '';
+                }}/>
         </div>
     </div>
 );
