@@ -20,12 +20,20 @@ class App extends Component {
 
     onSubmit = () => {
         const { searchTerm } = this.state;
+        let id = 0;
+        console.log(encodeURI(searchTerm));
+        axios.get(`/api/${encodeURI(searchTerm)}`)
+            .then(res => {
+                id = res.data.id;
+                return axios.get(`/api/active-game/${id}`);
+            })
+            .then(res => {
+                this.setState({
+                    data: res.data
+                })
+            })
 
-        axios.get(`/api/${searchTerm}`).then(res => {
-           this.setState({
-               data: res.data
-           })
-        });
+
     }
 
     render() {
