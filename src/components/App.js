@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import XRegExp from 'xregexp';
 import '../css/App.css';
 import SearchBar from './SearchBar';
 import Team1 from './Team1';
 import Team2 from './Team2';
 import {champions} from '../champions';
+import { CircularProgress } from 'material-ui/Progress';
+
+
 
 
 class App extends Component {
@@ -13,9 +15,10 @@ class App extends Component {
     state = {
         searchTerm: '',
         data: [],
+        status: ''
     }
 
-     getActiveGameData = async () => {
+      getActiveGameData = async () => {
         const { searchTerm } = this.state;
         try{
             const response = await fetch(`/api/${encodeURI(searchTerm)}`);
@@ -26,6 +29,10 @@ class App extends Component {
             console.log(activeGameData);
             let info = [];
 
+            this.setState({
+                data: [],
+                status: <CircularProgress/>
+            })
             for (let i = 0; i < activeGameData.participants.length; i++) {
                 const player = activeGameData.participants[i];
                 const response3 = await fetch(`/api/rank/${player.summonerId}`);
@@ -38,10 +45,17 @@ class App extends Component {
                 }]
             }
             this.setState({
-                data: info
+                data: info,
+                status: '',
+                searchTerm: ''
             })
         }
         catch (err) {
+            this.setState({
+                data: [],
+                status: `${searchTerm} is not in game`,
+                searchTerm: ''
+            })
             console.log(err);
         }
     }
@@ -62,13 +76,14 @@ class App extends Component {
         }
         else {
             this.setState({
-                data: []
+                data: [],
+                status: 'Invalid input'
             })
         }
     }
 
     render() {
-        const {data} = this.state;
+        const { data, status } = this.state;
         return (
           <div className="App">
               <div
@@ -86,7 +101,7 @@ class App extends Component {
                       <div>
                           <Team1 data={data}/>
                           <Team2 data={data}/>
-                      </div> : ''}
+                      </div> : <div className="bottom-text"> {status} </div>}
               </div>
           </div>
         );
