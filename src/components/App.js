@@ -35,6 +35,8 @@ class App extends Component {
                 const rankData = await fetchRank(player.summonerId);
                 return {
                     name: player.summonerName,
+                    champName: champions.data[player.championId].name,
+                    champIMG: champions.data[player.championId].image.full,
                     rank: rankData[0].tier
                 }
             }))
