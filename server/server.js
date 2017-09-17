@@ -29,4 +29,13 @@ app.get('/api/active-game/:id', (req, res) => {
    });
 });
 
+app.get('/api/rank/:id', (req, res) => {
+   const { id } = req.params;
+   const url = `https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/${id}?api_key=${RIOT_API_KEY}`
+
+   request(url, (error, response, body) => {
+      res.send(body);
+   });
+});
+
 console.log(`express app listening on port ${port}`);
