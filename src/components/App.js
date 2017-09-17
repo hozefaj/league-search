@@ -29,7 +29,7 @@ class App extends Component {
         if (searchTerm.length > 16) return;
         const regex = new XRegExp("^[0-9\\p{L} _\\.]+$");
         if (regex.test(searchTerm)) {
-            const playerData = await fetchPlayer(searchTerm);
+            const playerData = await fetchPlayer(encodeURI(searchTerm));
             const activeGameData = await fetchActiveGame(playerData.id);
             const theData = await Promise.all(activeGameData.participants.map(async player => {
                 const rankData = await fetchRank(player.summonerId);
