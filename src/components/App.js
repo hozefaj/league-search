@@ -37,7 +37,7 @@ class App extends Component {
                     name: player.summonerName,
                     champName: champions.data[player.championId].name,
                     champIMG: champions.data[player.championId].image.full,
-                    rank: rankData[0].tier
+                    rank: rankData[0].tier + ' ' + rankData[0].rank
                 }
             }))
             this.setState({
@@ -51,22 +51,20 @@ class App extends Component {
         const { data, status } = this.state;
         return (
           <div className="App">
-              <div
-                className="text"
-              >
+              <div className="text">
                   League Search
               </div>
               <SearchBar
                 onSearchChange={this.onSearchChange}
-                onSubmit={this.onSubmit.bind(this)}
-              />
-
+                onSubmit={this.onSubmit.bind(this)}/>
               <div>
-                  {data.length !== 0 ?
+                  {
+                      data.length !== 0 ?
                       <div>
                           <Team1 data={data}/>
                           <Team2 data={data}/>
-                      </div> : <div className="bottom-text"> {status} </div>}
+                      </div> : <div className="bottom-text"> {status} </div>
+                  }
               </div>
           </div>
         );
