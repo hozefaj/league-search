@@ -1,11 +1,15 @@
 const dotenv = require('dotenv').config(); // Requires the environment variables
 const express = require('express');
 const request = require('request');
+const path = require('path');
 const app = express(); // Initialize the server
 const RIOT_API_KEY = process.env.RIOT_API_KEY; // API KEY
 const port = process.env.PORT || 3001; // Set the port to 3001
 
 app.listen(port);
+
+// Server static files
+app.use(express.static('../public'));
 
 app.get('/api/:summoner/', (req, res) => {
     const {summoner} = req.params;
