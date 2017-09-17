@@ -18,69 +18,32 @@ class App extends Component {
         status: ''
     }
 
-      getActiveGameData = async () => {
-        const { searchTerm } = this.state;
-        try{
-            const response = await fetch(`/api/${encodeURI(searchTerm)}`);
-            const accountData = await response.json();
-            console.log(accountData);
-            const response2 = await fetch(`/api/active-game/${accountData.id}`);
-            const activeGameData = await response2.json();
-            console.log(activeGameData);
-            let info = [];
-
-            this.setState({
-                data: [],
-                status: <CircularProgress/>
-            })
-            for (let i = 0; i < activeGameData.participants.length; i++) {
-                const player = activeGameData.participants[i];
-                const response3 = await fetch(`/api/rank/${player.summonerId}`);
-                let rankData = await response3.json();
-                info = [...info, {
-                    name: player.summonerName,
-                    rank: rankData.length > 0 ? rankData[0].tier : 'Unranked',
-                    champIMG: champions.data[player.championId].image.full,
-                    champName: champions.data[player.championId].name
-                }]
-            }
-            this.setState({
-                data: info,
-                status: '',
-                searchTerm: ''
-            })
-        }
-        catch (err) {
-            this.setState({
-                data: [],
-                status: `${searchTerm} is not in game`,
-                searchTerm: ''
-            })
-            console.log(err);
-        }
-    }
-
-
     onSearchChange = (e) => {
         this.setState({
             searchTerm: e.target.value
         });
     }
 
-    onSubmit = () => {
+    async onSubmit() {
         const { searchTerm } = this.state;
         if (searchTerm.length > 16) return;
         const regex = new XRegExp("^[0-9\\p{L} _\\.]+$");
         if (regex.test(searchTerm)) {
-            this.getActiveGameData();
-        }
-        else {
+            const playerData = await fetchPlayer(searchTerm);
+            const activeGameData = await fetchActiveGame(playerData.id);
+            const theData = await Promise.all(activeGameData.participants.map(async player => {
+                const rankData = await fetchRank(player.summonerId);
+                return {
+                    name: player.summonerName,
+                    rank: rankData[0].tier
+                }
+            }))
             this.setState({
-                data: [],
-                status: 'Invalid input'
+                data: theData
             })
         }
     }
+
 
     render() {
         const { data, status } = this.state;
@@ -93,7 +56,7 @@ class App extends Component {
               </div>
               <SearchBar
                 onSearchChange={this.onSearchChange}
-                onSubmit={this.onSubmit}
+                onSubmit={this.onSubmit.bind(this)}
               />
 
               <div>
@@ -106,6 +69,21 @@ class App extends Component {
           </div>
         );
     }
+}
+
+async function fetchPlayer(name) {
+    let response = await fetch(`/api/${name}`);
+    return response.json();
+}
+
+async function fetchActiveGame(id) {
+    let response = await fetch(`/api/active-game/${id}`);
+    return response.json();
+}
+
+async function fetchRank(id) {
+    let response = await fetch(`/api/rank/${id}`);
+    return response.json();
 }
 
 export default App;
