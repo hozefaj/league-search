@@ -5,8 +5,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "material-ui": "next",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "next",
+    "react-dom": "next",
     "request": "^2.81.0",
     "semantic-ui-react": "^0.72.0",
     "xregexp": "^3.2.0"
