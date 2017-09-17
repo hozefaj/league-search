@@ -27,7 +27,9 @@ class App extends Component {
             searchTerm: e.target.value
         });
     }
-
+    /*
+        Hits the API whenever an entry is submitted. The data is stored in state.
+     */
     async onSubmit() {
         this.setState({
             data: [],
@@ -48,10 +50,10 @@ class App extends Component {
                         champIMG: champions.data[player.championId].image.full,
                         rank: (rankData[0] ? adjustWord(rankData[0].tier) + ' ' + rankData[0].rank : 'Unranked')
                     }
-                }))
+                }));
                 this.setState({
                     data: theData
-                })
+                });
             }
             catch (err) {
                 console.log(err);
@@ -65,7 +67,7 @@ class App extends Component {
             this.setState({
                 data: [],
                 status: `${searchTerm} does not exist`
-            })
+            });
         }
     }
 
