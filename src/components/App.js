@@ -20,7 +20,8 @@ class App extends Component {
         data.participants.forEach(player => {
             info = [...info, {
                 name: player.summonerName,
-                champIMG: champions.data[player.championId].image.full
+                champIMG: champions.data[player.championId].image.full,
+                champName: champions.data[player.championId].name
             }]
         });
         this.setState({
