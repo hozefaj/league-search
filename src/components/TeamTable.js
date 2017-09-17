@@ -31,7 +31,7 @@ const TeamTable = ({data, team}) => {
                             return (
                                 <TableRow key={id++}>
                                     <TableCell>{player.name}</TableCell>
-                                    <TableCell> <img src={url} height="35" width="35"/> {player.champName} </TableCell>
+                                    <TableCell> <img src={url} height="35" width="35" alt={player.champName}/> {player.champName} </TableCell>
                                     <TableCell numeric>{1}</TableCell>
                                 </TableRow>
                             );
