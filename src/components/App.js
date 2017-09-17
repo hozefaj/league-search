@@ -15,19 +15,37 @@ class App extends Component {
         data: [],
     }
 
-    getData = (data) => {
-        let info = [];
-        data.participants.forEach(player => {
-            info = [...info, {
-                name: player.summonerName,
-                champIMG: champions.data[player.championId].image.full,
-                champName: champions.data[player.championId].name
-            }]
-        });
-        this.setState({
-           data: info
-        });
+     getActiveGameData = async () => {
+        const { searchTerm } = this.state;
+        try{
+            const response = await fetch(`/api/${encodeURI(searchTerm)}`);
+            const accountData = await response.json();
+            console.log(accountData);
+            const response2 = await fetch(`/api/active-game/${accountData.id}`);
+            const activeGameData = await response2.json();
+            console.log(activeGameData);
+            let info = [];
+
+            for (let i = 0; i < activeGameData.participants.length; i++) {
+                const player = activeGameData.participants[i];
+                const response3 = await fetch(`/api/rank/${player.summonerId}`);
+                let rankData = await response3.json();
+                info = [...info, {
+                    name: player.summonerName,
+                    rank: rankData.length > 0 ? rankData[0].tier : 'Unranked',
+                    champIMG: champions.data[player.championId].image.full,
+                    champName: champions.data[player.championId].name
+                }]
+            }
+            this.setState({
+                data: info
+            })
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
+
 
     onSearchChange = (e) => {
         this.setState({
@@ -40,17 +58,7 @@ class App extends Component {
         if (searchTerm.length > 16) return;
         const regex = new XRegExp("^[0-9\\p{L} _\\.]+$");
         if (regex.test(searchTerm)) {
-            axios.get(`/api/${encodeURI(searchTerm)}`)
-                .then(res => {
-                    return axios.get(`/api/active-game/${res.data.id}`);
-                })
-                .then(res => {
-                    // Check participants to verify that the summoner is in game
-                    console.log(res);
-                    if (res.data.participants) {
-                        this.getData(res.data);
-                    }
-                })
+            this.getActiveGameData();
         }
         else {
             this.setState({
