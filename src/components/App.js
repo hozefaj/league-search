@@ -16,7 +16,7 @@ class App extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState){
-        return this.state.data !== nextState.data;
+        return this.state.data !== nextState.data || this.state.status !== nextState.status;
     }
 
     onSearchChange = (e) => {
@@ -26,23 +26,42 @@ class App extends Component {
     }
 
     async onSubmit() {
+        this.setState({
+            data: [],
+            status: <CircularProgress/>
+        });
         const { searchTerm } = this.state;
         if (searchTerm.length > 16) return;
         const regex = new XRegExp("^[0-9\\p{L} _\\.]+$");
         if (regex.test(searchTerm)) {
-            const playerData = await fetchPlayer(encodeURI(searchTerm));
-            const activeGameData = await fetchActiveGame(playerData.id);
-            const theData = await Promise.all(activeGameData.participants.map(async player => {
-                const rankData = await fetchRank(player.summonerId);
-                return {
-                    name: player.summonerName,
-                    champName: champions.data[player.championId].name,
-                    champIMG: champions.data[player.championId].image.full,
-                    rank: rankData[0].tier + ' ' + rankData[0].rank
-                }
-            }))
+            try {
+                const playerData = await fetchPlayer(encodeURI(searchTerm));
+                const activeGameData = await fetchActiveGame(playerData.id);
+                const theData = await Promise.all(activeGameData.participants.map(async player => {
+                    const rankData = await fetchRank(player.summonerId);
+                    return {
+                        name: player.summonerName,
+                        champName: champions.data[player.championId].name,
+                        champIMG: champions.data[player.championId].image.full,
+                        rank: (rankData[0] ? rankData[0].tier + ' ' + rankData[0].rank : 'Unranked')
+                    }
+                }))
+                this.setState({
+                    data: theData
+                })
+            }
+            catch (err) {
+                console.log(err);
+                this.setState({
+                    data: [],
+                    status: `${searchTerm} is not in game`
+                });
+            }
+        }
+        else {
             this.setState({
-                data: theData
+                data: [],
+                status: `${searchTerm} does not exist`
             })
         }
     }
