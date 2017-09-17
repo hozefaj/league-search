@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import XRegExp from 'xregexp';
 import '../css/App.css';
 import SearchBar from './SearchBar';
 import Team1 from './Team1';
 import Team2 from './Team2';
-import axios from 'axios';
-import XRegExp from 'xregexp';
+import {champions} from '../champions';
 
 
 class App extends Component {
@@ -12,6 +13,19 @@ class App extends Component {
     state = {
         searchTerm: '',
         data: [],
+    }
+
+    getData = (data) => {
+        let info = [];
+        data.participants.forEach(player => {
+            info = [...info, {
+                name: player.summonerName,
+                champIMG: champions.data[player.championId].image.full
+            }]
+        });
+        this.setState({
+           data: info
+        });
     }
 
     onSearchChange = (e) => {
@@ -23,7 +37,6 @@ class App extends Component {
     onSubmit = () => {
         const { searchTerm } = this.state;
         if (searchTerm.length > 16) return;
-        console.log(encodeURI(searchTerm));
         const regex = new XRegExp("^[0-9\\p{L} _\\.]+$");
         if (regex.test(searchTerm)) {
             axios.get(`/api/${encodeURI(searchTerm)}`)
@@ -31,11 +44,10 @@ class App extends Component {
                     return axios.get(`/api/active-game/${res.data.id}`);
                 })
                 .then(res => {
-                    // Check participants to verify that the summoner is in game44
+                    // Check participants to verify that the summoner is in game
+                    console.log(res);
                     if (res.data.participants) {
-                        this.setState({
-                            data: res.data
-                        })
+                        this.getData(res.data);
                     }
                 })
         }
@@ -59,6 +71,7 @@ class App extends Component {
                 onSearchChange={this.onSearchChange}
                 onSubmit={this.onSubmit}
               />
+
               <div>
                   {data.length !== 0 ?
                       <div>
