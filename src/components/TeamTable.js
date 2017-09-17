@@ -3,18 +3,16 @@ import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Ta
 import Paper from 'material-ui/Paper';
 import '../css/TeamTable.css'
 
-let id = 0;
-
 const TeamTable = ({data, team}) => {
-    if (data.participants) {
+    let id = 0;
+    if (data) {
         let arr = [];
-        const participants = data.participants;
-        const teamLength = data.participants.length;
+        const teamLength = data.length;
         if (team === 1) {
-            arr = participants.slice(0, teamLength / 2);
+            arr = data.slice(0, teamLength / 2);
         }
         if (team === 2) {
-            arr = participants.slice(teamLength / 2, teamLength);
+            arr = data.slice(teamLength / 2, teamLength);
         }
         return (
             <Paper className="paper">
@@ -29,10 +27,11 @@ const TeamTable = ({data, team}) => {
                     </TableHead>
                     <TableBody>
                         {arr.map(player => {
+                            const url = `/ddragon/7.18.1/img/champion/${player.champIMG}`;
                             return (
                                 <TableRow key={id++}>
-                                    <TableCell>{player.summonerName}</TableCell>
-                                    <TableCell numeric>{player.championId}</TableCell>
+                                    <TableCell>{player.name}</TableCell>
+                                    <TableCell> <img src={url}/> </TableCell>
                                     <TableCell numeric>{1}</TableCell>
                                 </TableRow>
                             );
