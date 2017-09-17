@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TeamTable from './TeamTable';
 
-class Team1 extends React.Component {
+class Team1 extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         return this.props.data !== nextProps.data
