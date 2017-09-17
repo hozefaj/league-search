@@ -6,3 +6,9 @@
 .App {
     font-family: Roboto;
 }
+
+.bottom-text {
+    text-align: center;
+    font-size: 3vw;
+    margin-top: 5%;
+}
