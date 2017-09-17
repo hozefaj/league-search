@@ -15,10 +15,6 @@ class App extends Component {
         status: ''
     }
 
-    shouldComponentUpdate(nextProps, nextState){
-        return this.state.data !== nextState.data || this.state.status !== nextState.status;
-    }
-
     onSearchChange = (e) => {
         this.setState({
             searchTerm: e.target.value
