@@ -7,15 +7,16 @@ import Team2 from './Team2';
 import {champions} from '../champions';
 import { CircularProgress } from 'material-ui/Progress';
 
-
-
-
 class App extends Component {
 
     state = {
         searchTerm: '',
         data: [],
         status: ''
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        return this.state.data !== nextState.data;
     }
 
     onSearchChange = (e) => {
@@ -45,7 +46,6 @@ class App extends Component {
             })
         }
     }
-
 
     render() {
         const { data, status } = this.state;
