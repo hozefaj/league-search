@@ -15,6 +15,7 @@ const SearchBar = ({onSearchChange, onSubmit}) => (
             >
                 <input
                     className="input"
+                    placeholder="Enter player name"
                     ref={node => {
                         this.input = node
                     }}
