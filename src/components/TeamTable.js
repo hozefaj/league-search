@@ -28,11 +28,12 @@ const TeamTable = ({data, team}) => {
                     <TableBody>
                         {arr.map(player => {
                             const url = `/ddragon/7.18.1/img/champion/${player.champIMG}`;
+                            const url2 = `/base-icons/${player.rank[1].toLowerCase()}.png`
                             return (
                                 <TableRow key={id++}>
                                     <TableCell>{player.name}</TableCell>
                                     <TableCell> <img src={url} height="32" width="32" alt={player.champName}/> {player.champName} </TableCell>
-                                    <TableCell numeric>{player.rank}</TableCell>
+                                    <TableCell numeric> <img src={url2} height="32" width="32" alt={player.rank[1]}/> {player.rank[0]}</TableCell>
                                 </TableRow>
                             );
                         })}
