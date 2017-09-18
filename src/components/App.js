@@ -17,7 +17,7 @@ class App extends Component {
     state = {
         searchTerm: '',
         data: [],
-        status: ''
+        status: 'Get data from live games!'
     }
     /*
         Changes the value of the current input of the form
