@@ -48,7 +48,10 @@ class App extends Component {
                         name: player.summonerName,
                         champName: champions.data[player.championId].name,
                         champIMG: champions.data[player.championId].image.full,
-                        rank: (rankData[0] ? adjustWord(rankData[0].tier) + ' ' + rankData[0].rank : 'Unranked')
+                        rank: [
+                            (rankData[0] ? adjustWord(rankData[0].tier) + ' ' + rankData[0].rank : 'Unranked'),
+                            (rankData[0] ? rankData[0].tier : 'provisional')
+                        ]
                     }
                 }));
                 this.setState({
