@@ -9,12 +9,11 @@ const theme = createMuiTheme({
     },
 });
 
-const CustomButton = ({onClick}) => (
+const CustomButton = () => (
     <MuiThemeProvider theme={theme}>
             <Button raised
                     className="button"
                     color="primary"
-                    onClick={onClick}
             >
                 {'Search'}
             </Button>
